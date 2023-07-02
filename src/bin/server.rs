@@ -1,5 +1,7 @@
 use std::net::UdpSocket;
 
+use silk_stream::Datagram;
+
 fn main() {
     println!("Hello, server!");
 
@@ -14,10 +16,7 @@ fn main() {
             .recv_from(&mut buf)
             .expect("Failed to read from socket");
 
-        let received_message = &buf[..bytes_read];
-        println!(
-            "Received message from {}: {:?}",
-            client_addr, received_message
-        );
+        let datagram = Datagram::new(&buf[..bytes_read]);
+        println!("Received message from {}: {}", client_addr, datagram);
     }
 }
